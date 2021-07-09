@@ -85,6 +85,7 @@ class vaccineTracker:
 
 	def parse_json_pincode(self, result):
 		output = []
+		#print(result)
 		sessions = result['sessions']
 		if len(sessions)==0:
 			return output
@@ -102,6 +103,7 @@ class vaccineTracker:
 		if response.status_code == 200:
 			print("API call success")
 			result = response.json()
+			#print(result)
 			if query_type=='district_code':
 				output = self.parse_json_district_code(result)
 			elif query_type =='pincode':
@@ -153,7 +155,7 @@ class vaccineTracker:
 
 t = datetime.now()
 if __name__ == '__main__':
-	time_delay = 240 #minutes
+	time_delay = 60 #minutes
 	query_type = 'pincode' # set it to "pincode" to query by pincode
 	config_file_path = 'config.yml'
 	

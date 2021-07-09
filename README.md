@@ -94,3 +94,19 @@ python3 vaccineTracker.py
 ```
 It'll search for availibility of vaccine centers in that area.
 
+## How it works
+The vaccineTracker Class gets initialized and the details passed in [config.yml](config.yml) are assigned to the instance variables.
+
+The following line of code parses the ymlfile into a python object and stores it in <code>cfg</code> as a dictionary with the tree data.
+```sh
+cfg = yaml.safe_load(ymlfile)
+```
+
+The <code>set_params</code> method parses the dictionary stored in <code>cfg</code> and assigns the values to the instance variables.
+
+The <code>vaccineTracker</code> object calls the <code>query</code> method with <code>root_url</code> and <code>query_type</code> as parameters. 
+The <code>query</code> method modifies the <code>url</code> as per the <code>query_type</code> and calls the <code>call_api</code> method, with <code>modified_url</code> and <code>query_type</code> as parameters.
+The <code>call_api</code> method sends a <code>GET</code> request and saves the response as a response object. If the response <code>status_code</code> is 200 i.e. success, we extract the data in a json format and pass the json object in the <code>parse_json_<query_type></code> method to parse the data that we need.
+Then it calls the <code>send_email</code> method which sends a mail to the desired email id with the parsed data.
+
+If, due to some reason, the <code>status_code</code> is anything but 200, i.e. fail, it repeats the entire process after the specified <code>time_delay</code>.
